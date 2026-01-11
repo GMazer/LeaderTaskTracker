@@ -165,7 +165,7 @@ export const TaskList: React.FC<TaskListProps> = ({
                     </div>
 
                     <div>
-                      <p className={`text-gray-600 dark:text-slate-300 text-sm leading-relaxed ${isDescExpanded ? '' : 'line-clamp-2'}`}>
+                      <p className={`text-gray-600 dark:text-slate-300 text-sm leading-relaxed break-words ${isDescExpanded ? '' : 'line-clamp-2'}`}>
                         {task.description}
                       </p>
                       {showExpandButton && (
