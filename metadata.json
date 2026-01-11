@@ -1,0 +1,5 @@
+{
+  "name": "TeamLead Task Tracker",
+  "description": "Ứng dụng quản lý công việc dành cho trưởng nhóm với tính năng theo dõi tiến độ, thống kê và hỗ trợ AI.",
+  "requestFramePermissions": []
+}
