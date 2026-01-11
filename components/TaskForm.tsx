@@ -17,8 +17,6 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
   
   // Fields that are only visible when editing or have default values
   const [status, setStatus] = useState<TaskStatus>(TaskStatus.TODO);
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [progressNotes, setProgressNotes] = useState('');
   
   const [aiPrompt, setAiPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -32,8 +30,6 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
       setAssignee(initialTask.assignee);
       setDescription(initialTask.description);
       setStatus(initialTask.status);
-      setIsConfirmed(initialTask.isConfirmed);
-      setProgressNotes(initialTask.progressNotes);
       setAttachments(initialTask.attachments || []);
       
       if (initialTask.deadline) {
@@ -77,8 +73,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
       assignee,
       description,
       status, // Will be TODO if new
-      isConfirmed, // Will be false if new
-      progressNotes, // Will be empty if new
+      notes: initialTask?.notes || [],
       deadline: deadlineTimestamp,
       attachments: attachments as any
     });
@@ -176,7 +171,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
               />
             </div>
 
-            {/* Only show Status/Progress fields when editing an existing task */}
+            {/* Only show Status fields when editing an existing task */}
             {initialTask && (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 dark:bg-slate-700/50 p-4 rounded-xl border border-gray-200 dark:border-slate-600">
@@ -192,30 +187,6 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                       <option value={TaskStatus.DONE}>Hoàn thành</option>
                     </select>
                   </div>
-
-                  <div className="flex items-center space-x-3 h-full pt-6">
-                    <input
-                      type="checkbox"
-                      id="confirmed"
-                      checked={isConfirmed}
-                      onChange={(e) => setIsConfirmed(e.target.checked)}
-                      className="w-5 h-5 text-blue-600 border-gray-300 dark:border-slate-500 rounded focus:ring-blue-500 bg-white dark:bg-slate-800"
-                    />
-                    <label htmlFor="confirmed" className="text-sm font-medium text-gray-700 dark:text-slate-300 select-none cursor-pointer">
-                      Người nhận đã xác nhận
-                    </label>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-slate-300">Ghi chú tiến độ</label>
-                  <textarea
-                    value={progressNotes}
-                    onChange={(e) => setProgressNotes(e.target.value)}
-                    rows={2}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-gray-400 dark:placeholder-slate-500"
-                    placeholder="Cập nhật tình hình thực hiện..."
-                  />
                 </div>
               </>
             )}

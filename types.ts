@@ -8,7 +8,13 @@ export interface Attachment {
   id: string;
   name: string;
   type: string;
-  url?: string; // In a real app, this would be a blob URL or S3 link
+  url?: string;
+}
+
+export interface Note {
+  id: string;
+  content: string;
+  createdAt: number;
 }
 
 export interface Project {
@@ -20,15 +26,15 @@ export interface Project {
 
 export interface Task {
   id: string;
-  projectId: string; // Link task to a project
+  projectId: string;
   title: string;
-  assignee: string; // Name of the team member
+  assignee: string;
   description: string;
-  isConfirmed: boolean; // Has the assignee confirmed reception?
+  // removed isConfirmed
   status: TaskStatus;
-  progressNotes: string; // Notes on current progress
+  notes: Note[]; // Changed from progressNotes string to Note array
   attachments: Attachment[];
-  deadline?: number; // Timestamp for deadline
+  deadline?: number;
   createdAt: number;
   updatedAt: number;
 }

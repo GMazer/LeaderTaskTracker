@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Task, TaskStatus } from '../../types';
+import { Task, TaskStatus, Note } from '../../types';
 import { generateTaskSuggestion } from '../../services/geminiService';
-import { X, Sparkles, Loader2, Upload, FileText, Calendar } from 'lucide-react';
+import { X, Sparkles, Loader2, Upload, FileText, Calendar, MessageSquare, Clock } from 'lucide-react';
 
 interface TaskFormProps {
   initialTask?: Task | null;
@@ -17,8 +17,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
   
   // Fields that are only visible when editing or have default values
   const [status, setStatus] = useState<TaskStatus>(TaskStatus.TODO);
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [progressNotes, setProgressNotes] = useState('');
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [newNote, setNewNote] = useState('');
   
   const [aiPrompt, setAiPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -32,13 +32,16 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
       setAssignee(initialTask.assignee);
       setDescription(initialTask.description);
       setStatus(initialTask.status);
-      setIsConfirmed(initialTask.isConfirmed);
-      setProgressNotes(initialTask.progressNotes);
+      setNotes(initialTask.notes || []);
       setAttachments(initialTask.attachments || []);
       
       if (initialTask.deadline) {
+        // Format timestamp to YYYY-MM-DDTHH:mm for datetime-local input
         const date = new Date(initialTask.deadline);
-        setDeadline(date.toISOString().split('T')[0]);
+        // Adjust for local timezone offset to display correct time in input
+        const offset = date.getTimezoneOffset() * 60000;
+        const localISOTime = (new Date(date.getTime() - offset)).toISOString().slice(0, 16);
+        setDeadline(localISOTime);
       }
     }
   }, [initialTask]);
@@ -68,17 +71,26 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Convert deadline string YYYY-MM-DD to timestamp
+    // Convert deadline string to timestamp
     const deadlineTimestamp = deadline ? new Date(deadline).getTime() : undefined;
+
+    // Handle new note added directly in form
+    let updatedNotes = [...notes];
+    if (newNote.trim()) {
+      updatedNotes.unshift({
+        id: Math.random().toString(36).substr(2, 9),
+        content: newNote,
+        createdAt: Date.now()
+      });
+    }
 
     onSave({
       id: initialTask?.id,
       title,
       assignee,
       description,
-      status, // Will be TODO if new
-      isConfirmed, // Will be false if new
-      progressNotes, // Will be empty if new
+      status, 
+      notes: updatedNotes,
       deadline: deadlineTimestamp,
       attachments: attachments as any
     });
@@ -151,10 +163,10 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-slate-300">Hạn chót (Deadline)</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-slate-300">Hạn chót (Giờ & Ngày)</label>
                 <div className="relative">
                   <input
-                    type="date"
+                    type="datetime-local"
                     value={deadline}
                     onChange={(e) => setDeadline(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all [color-scheme:light] dark:[color-scheme:dark]"
@@ -176,48 +188,58 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
               />
             </div>
 
-            {/* Only show Status/Progress fields when editing an existing task */}
+            {/* Only show Status fields when editing an existing task */}
             {initialTask && (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 dark:bg-slate-700/50 p-4 rounded-xl border border-gray-200 dark:border-slate-600">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-slate-300">Trạng thái tiến độ</label>
-                    <select
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value as TaskStatus)}
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                    >
-                      <option value={TaskStatus.TODO}>Chưa làm</option>
-                      <option value={TaskStatus.IN_PROGRESS}>Đang làm</option>
-                      <option value={TaskStatus.DONE}>Hoàn thành</option>
-                    </select>
-                  </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-slate-300">Trạng thái tiến độ</label>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value as TaskStatus)}
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                >
+                  <option value={TaskStatus.TODO}>Chưa làm</option>
+                  <option value={TaskStatus.IN_PROGRESS}>Đang làm</option>
+                  <option value={TaskStatus.DONE}>Hoàn thành</option>
+                </select>
+              </div>
+            )}
 
-                  <div className="flex items-center space-x-3 h-full pt-6">
-                    <input
-                      type="checkbox"
-                      id="confirmed"
-                      checked={isConfirmed}
-                      onChange={(e) => setIsConfirmed(e.target.checked)}
-                      className="w-5 h-5 text-blue-600 border-gray-300 dark:border-slate-500 rounded focus:ring-blue-500 bg-white dark:bg-slate-800"
-                    />
-                    <label htmlFor="confirmed" className="text-sm font-medium text-gray-700 dark:text-slate-300 select-none cursor-pointer">
-                      Người nhận đã xác nhận
-                    </label>
-                  </div>
+            {/* Notes Section - Show History */}
+            {initialTask && (
+              <div className="space-y-3 bg-gray-50 dark:bg-slate-700/30 p-4 rounded-xl border border-gray-100 dark:border-slate-600">
+                <label className="text-sm font-medium text-gray-700 dark:text-slate-300 flex items-center gap-2">
+                  <MessageSquare size={16} />
+                  Lịch sử ghi chú & Cập nhật
+                </label>
+                
+                <div className="max-h-40 overflow-y-auto space-y-3 custom-scrollbar mb-3">
+                  {notes.length === 0 ? (
+                    <p className="text-xs text-gray-400 italic">Chưa có ghi chú nào.</p>
+                  ) : (
+                    notes.map((note) => (
+                      <div key={note.id} className="text-sm bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-600">
+                         <div className="flex items-center justify-between mb-1">
+                           <span className="text-xs text-gray-400 flex items-center gap-1">
+                             <Clock size={10} /> 
+                             {new Date(note.createdAt).toLocaleString('vi-VN')}
+                           </span>
+                         </div>
+                         <p className="text-gray-700 dark:text-slate-300">{note.content}</p>
+                      </div>
+                    ))
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-slate-300">Ghi chú tiến độ</label>
-                  <textarea
-                    value={progressNotes}
-                    onChange={(e) => setProgressNotes(e.target.value)}
-                    rows={2}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-gray-400 dark:placeholder-slate-500"
-                    placeholder="Cập nhật tình hình thực hiện..."
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={newNote}
+                    onChange={(e) => setNewNote(e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="Thêm ghi chú mới..."
                   />
                 </div>
-              </>
+              </div>
             )}
 
             <div className="space-y-3">

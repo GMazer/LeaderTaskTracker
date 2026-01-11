@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Project, Task, TaskStatus } from '../types';
+import { Project, Task, TaskStatus, Note } from '../types';
 
 // Mock data
 const MOCK_PROJECTS: Project[] = [
@@ -13,9 +13,10 @@ const MOCK_TASKS: Task[] = [
     title: 'Thiết kế giao diện Dashboard',
     assignee: 'Nguyễn Văn A',
     description: 'Thiết kế UI/UX cho màn hình dashboard của admin, bao gồm biểu đồ thống kê.',
-    isConfirmed: true,
     status: TaskStatus.IN_PROGRESS,
-    progressNotes: 'Đã xong wireframe, đang lên màu.',
+    notes: [
+      { id: 'n1', content: 'Đã xong wireframe, đang lên màu.', createdAt: Date.now() - 10000000 }
+    ],
     attachments: [{ id: '1', name: 'wireframe_v1.png', type: 'image/png' }],
     deadline: Date.now() + 86400000 * 2,
     createdAt: Date.now(),
@@ -27,9 +28,8 @@ const MOCK_TASKS: Task[] = [
     title: 'Viết API Login',
     assignee: 'Trần Thị B',
     description: 'Xây dựng API xác thực người dùng sử dụng JWT.',
-    isConfirmed: false,
     status: TaskStatus.TODO,
-    progressNotes: '',
+    notes: [],
     attachments: [],
     deadline: Date.now() + 86400000 * 5,
     createdAt: Date.now(),
@@ -41,9 +41,10 @@ const MOCK_TASKS: Task[] = [
     title: 'Kiểm thử tích hợp',
     assignee: 'Lê Văn C',
     description: 'Chạy test case cho module thanh toán.',
-    isConfirmed: true,
     status: TaskStatus.DONE,
-    progressNotes: 'Đã pass 100% test case.',
+    notes: [
+      { id: 'n2', content: 'Đã pass 100% test case.', createdAt: Date.now() - 500000 }
+    ],
     attachments: [{ id: '2', name: 'test_report.pdf', type: 'application/pdf' }],
     deadline: Date.now() - 86400000,
     createdAt: Date.now(),
@@ -146,8 +147,7 @@ export const useAppLogic = () => {
       const newTask: Task = {
         ...taskData,
         status: TaskStatus.TODO,
-        isConfirmed: false,
-        progressNotes: '',
+        notes: [],
         projectId: currentProjectId,
         id: Math.random().toString(36).substr(2, 9),
         createdAt: Date.now(),
@@ -165,14 +165,23 @@ export const useAppLogic = () => {
     }
   };
 
-  const handleToggleConfirm = (taskId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setTasks(prev => prev.map(t => t.id === taskId ? { ...t, isConfirmed: !t.isConfirmed, updatedAt: Date.now() } : t));
-  };
-
   const handleChangeStatus = (taskId: string, newStatus: TaskStatus, e: React.ChangeEvent<HTMLSelectElement>) => {
     e.stopPropagation();
     setTasks(prev => prev.map(t => t.id === taskId ? { ...t, status: newStatus, updatedAt: Date.now() } : t));
+  };
+
+  const handleAddNote = (taskId: string, content: string) => {
+    if (!content.trim()) return;
+    const newNote: Note = {
+      id: Math.random().toString(36).substr(2, 9),
+      content,
+      createdAt: Date.now()
+    };
+    setTasks(prev => prev.map(t => t.id === taskId ? { 
+      ...t, 
+      notes: [newNote, ...t.notes], 
+      updatedAt: Date.now() 
+    } : t));
   };
 
   return {
@@ -187,7 +196,7 @@ export const useAppLogic = () => {
     },
     actions: {
       handleSaveProject, handleDeleteProject, handleEditProject,
-      handleSaveTask, handleDeleteTask, handleToggleConfirm, handleChangeStatus
+      handleSaveTask, handleDeleteTask, handleChangeStatus, handleAddNote
     }
   };
 };

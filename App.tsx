@@ -19,7 +19,7 @@ export default function App() {
     },
     actions: {
       handleSaveProject, handleDeleteProject, handleEditProject,
-      handleSaveTask, handleDeleteTask, handleToggleConfirm, handleChangeStatus
+      handleSaveTask, handleDeleteTask, handleChangeStatus, handleAddNote
     }
   } = useAppLogic();
 
@@ -70,8 +70,8 @@ export default function App() {
               setIsTaskModalOpen(true);
             }}
             onDeleteTask={handleDeleteTask}
-            onToggleConfirm={handleToggleConfirm}
             onChangeStatus={handleChangeStatus}
+            onAddNote={handleAddNote}
           />
         )}
       </main>
