@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Project, Task, TaskStatus, Note } from '../types';
 
 // Mock data
