@@ -48,7 +48,8 @@ export const STATUS_LABELS: Record<TaskStatus, string> = {
 };
 
 export const STATUS_COLORS: Record<TaskStatus, string> = {
+  // Increased contrast for dark mode: brighter text, slightly more visible background/border
   [TaskStatus.TODO]: 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600',
-  [TaskStatus.IN_PROGRESS]: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800',
-  [TaskStatus.DONE]: 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800'
+  [TaskStatus.IN_PROGRESS]: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-200 dark:border-blue-700',
+  [TaskStatus.DONE]: 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/40 dark:text-green-200 dark:border-green-700'
 };

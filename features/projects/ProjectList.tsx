@@ -24,7 +24,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-20 bg-white dark:bg-slate-800 rounded-xl border border-dashed border-gray-300 dark:border-slate-700">
+      <div className="text-center py-20 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-gray-300 dark:border-slate-700">
         <div className="mx-auto w-16 h-16 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
           <Folder className="text-gray-400 dark:text-slate-400" size={32} />
         </div>
@@ -48,7 +48,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
           <div 
             key={project.id}
             onClick={() => onSelectProject(project.id)}
-            className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-all cursor-pointer group flex flex-col relative"
+            className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-all cursor-pointer group flex flex-col relative"
           >
             <div className="p-6 flex-1">
               <div className="flex justify-between items-start mb-4">
@@ -58,14 +58,14 @@ export const ProjectList: React.FC<ProjectListProps> = ({
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button 
                     onClick={(e) => onEditProject(e, project)}
-                    className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                    className="p-2.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors"
                     title="Chỉnh sửa dự án"
                   >
                     <Edit2 size={18} />
                   </button>
                   <button 
                     onClick={(e) => onDeleteProject(e, project.id)}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                    className="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
                     title="Xóa dự án"
                   >
                     <Trash2 size={18} />

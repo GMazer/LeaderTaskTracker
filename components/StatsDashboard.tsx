@@ -33,7 +33,7 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({ tasks }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       {/* Overview Card */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col justify-between transition-colors duration-200">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col justify-between transition-colors duration-200">
         <div>
           <h3 className="text-lg font-semibold text-gray-700 dark:text-slate-200 mb-1">Tổng quan tiến độ</h3>
           <p className="text-sm text-gray-500 dark:text-slate-400">Tỷ lệ hoàn thành toàn dự án</p>
@@ -55,32 +55,32 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({ tasks }) => {
       </div>
 
       {/* Detailed Counts */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col justify-center space-y-4 transition-colors duration-200">
-        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-slate-600 transition-colors">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col justify-center space-y-4 transition-colors duration-200">
+        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-transparent hover:border-gray-200 dark:hover:border-slate-600 transition-colors">
           <div className="flex items-center space-x-3">
             <Circle className="text-gray-400 dark:text-slate-400" size={20} />
             <span className="text-gray-700 dark:text-slate-200 font-medium">Chưa làm</span>
           </div>
-          <span className="font-bold text-gray-900 dark:text-white px-2.5 py-0.5 bg-gray-200 dark:bg-slate-600 rounded-md text-sm">{stats[TaskStatus.TODO]}</span>
+          <span className="font-bold text-gray-900 dark:text-white px-3 py-0.5 bg-gray-200 dark:bg-slate-600 rounded-lg text-sm">{stats[TaskStatus.TODO]}</span>
         </div>
-        <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-transparent hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
+        <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-transparent hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div className="flex items-center space-x-3">
             <Clock className="text-blue-500 dark:text-blue-400" size={20} />
             <span className="text-blue-700 dark:text-blue-300 font-medium">Đang làm</span>
           </div>
-          <span className="font-bold text-blue-900 dark:text-blue-100 px-2.5 py-0.5 bg-blue-100 dark:bg-blue-800 rounded-md text-sm">{stats[TaskStatus.IN_PROGRESS]}</span>
+          <span className="font-bold text-blue-900 dark:text-blue-100 px-3 py-0.5 bg-blue-100 dark:bg-blue-800 rounded-lg text-sm">{stats[TaskStatus.IN_PROGRESS]}</span>
         </div>
-        <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-transparent hover:border-green-200 dark:hover:border-green-800 transition-colors">
+        <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-xl border border-transparent hover:border-green-200 dark:hover:border-green-800 transition-colors">
           <div className="flex items-center space-x-3">
             <CheckCircle2 className="text-green-500 dark:text-green-400" size={20} />
             <span className="text-green-700 dark:text-green-300 font-medium">Hoàn thành</span>
           </div>
-          <span className="font-bold text-green-900 dark:text-green-100 px-2.5 py-0.5 bg-green-100 dark:bg-green-800 rounded-md text-sm">{stats[TaskStatus.DONE]}</span>
+          <span className="font-bold text-green-900 dark:text-green-100 px-3 py-0.5 bg-green-100 dark:bg-green-800 rounded-lg text-sm">{stats[TaskStatus.DONE]}</span>
         </div>
       </div>
 
       {/* Chart */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 transition-colors duration-200 flex flex-col">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 transition-colors duration-200 flex flex-col">
         <h3 className="text-lg font-semibold text-gray-700 dark:text-slate-200 mb-2">Biểu đồ trạng thái</h3>
         <div className="flex-1 min-h-[160px]">
           {data.length > 0 ? (
@@ -104,9 +104,9 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({ tasks }) => {
                   contentStyle={{ 
                     backgroundColor: '#1e293b', 
                     border: '1px solid #334155', 
-                    borderRadius: '8px',
+                    borderRadius: '12px',
                     color: '#f8fafc',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)'
                   }}
                   itemStyle={{ color: '#f8fafc' }}
                 />

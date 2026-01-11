@@ -98,7 +98,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh] transition-colors duration-200">
+      <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh] transition-colors duration-200">
         <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-slate-700">
           <h2 className="text-xl font-bold text-gray-800 dark:text-white">
             {initialTask ? 'Cập nhật Công việc' : 'Tạo Công việc Mới'}
@@ -112,7 +112,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
           
           {/* AI Helper Section */}
           {!initialTask && (
-            <div className="mb-8 bg-purple-50 dark:bg-purple-900/20 p-4 rounded-xl border border-purple-100 dark:border-purple-800/50">
+            <div className="mb-8 bg-purple-50 dark:bg-purple-900/20 p-4 rounded-2xl border border-purple-100 dark:border-purple-800/50">
               <label className="block text-sm font-semibold text-purple-800 dark:text-purple-300 mb-2 flex items-center">
                 <Sparkles size={16} className="mr-2 text-purple-600 dark:text-purple-400" />
                 AI Hỗ trợ tạo nội dung nhanh
@@ -123,13 +123,13 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                   value={aiPrompt}
                   onChange={(e) => setAiPrompt(e.target.value)}
                   placeholder="Ví dụ: Kiểm tra tiến độ dự án website bán hàng..."
-                  className="flex-1 px-4 py-2 rounded-lg border border-purple-200 dark:border-purple-700 bg-white dark:bg-slate-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm placeholder-gray-400 dark:placeholder-slate-500"
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-purple-200 dark:border-purple-700 bg-white dark:bg-slate-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm placeholder-gray-400 dark:placeholder-slate-500"
                 />
                 <button
                   type="button"
                   onClick={handleGenerateAI}
                   disabled={isGenerating || !aiPrompt}
-                  className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 flex items-center font-medium text-sm"
+                  className="bg-purple-600 text-white px-4 py-2.5 rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50 flex items-center font-medium text-sm"
                 >
                   {isGenerating ? <Loader2 className="animate-spin" size={16} /> : 'Tạo'}
                 </button>
@@ -145,7 +145,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-gray-400 dark:placeholder-slate-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-gray-400 dark:placeholder-slate-500"
                 placeholder="Nhập tên công việc"
               />
             </div>
@@ -158,7 +158,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                   type="text"
                   value={assignee}
                   onChange={(e) => setAssignee(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-gray-400 dark:placeholder-slate-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-gray-400 dark:placeholder-slate-500"
                   placeholder="Nhập tên nhân viên"
                 />
               </div>
@@ -169,7 +169,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                     type="datetime-local"
                     value={deadline}
                     onChange={(e) => setDeadline(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all [color-scheme:light] dark:[color-scheme:dark]"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all [color-scheme:light] dark:[color-scheme:dark]"
                   />
                   {!deadline && <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />}
                 </div>
@@ -183,7 +183,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none placeholder-gray-400 dark:placeholder-slate-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none placeholder-gray-400 dark:placeholder-slate-500"
                 placeholder="Mô tả các yêu cầu của công việc..."
               />
             </div>
@@ -195,7 +195,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value as TaskStatus)}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-slate-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 >
                   <option value={TaskStatus.TODO}>Chưa làm</option>
                   <option value={TaskStatus.IN_PROGRESS}>Đang làm</option>
@@ -206,7 +206,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
 
             {/* Notes Section - Show History */}
             {initialTask && (
-              <div className="space-y-3 bg-gray-50 dark:bg-slate-700/30 p-4 rounded-xl border border-gray-100 dark:border-slate-600">
+              <div className="space-y-3 bg-gray-50 dark:bg-slate-700/30 p-4 rounded-2xl border border-gray-100 dark:border-slate-600">
                 <label className="text-sm font-medium text-gray-700 dark:text-slate-300 flex items-center gap-2">
                   <MessageSquare size={16} />
                   Lịch sử ghi chú & Cập nhật
@@ -217,9 +217,9 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                     <p className="text-xs text-gray-400 italic">Chưa có ghi chú nào.</p>
                   ) : (
                     notes.map((note) => (
-                      <div key={note.id} className="text-sm bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-600">
+                      <div key={note.id} className="text-sm bg-white dark:bg-slate-800 p-3 rounded-xl border border-gray-200 dark:border-slate-600">
                          <div className="flex items-center justify-between mb-1">
-                           <span className="text-xs text-gray-400 flex items-center gap-1">
+                           <span className="text-xs text-gray-400 dark:text-slate-400 flex items-center gap-1">
                              <Clock size={10} /> 
                              {new Date(note.createdAt).toLocaleString('vi-VN')}
                            </span>
@@ -235,7 +235,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                     type="text"
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 outline-none placeholder-gray-400 dark:placeholder-slate-500"
                     placeholder="Thêm ghi chú mới..."
                   />
                 </div>
@@ -271,7 +271,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
                   onChange={handleFileChange}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
-                <div className="w-full border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg p-4 flex flex-col items-center justify-center text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700/50 hover:border-blue-400 dark:hover:border-blue-500 transition-colors">
+                <div className="w-full border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-xl p-4 flex flex-col items-center justify-center text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700/50 hover:border-blue-400 dark:hover:border-blue-500 transition-colors">
                   <Upload size={24} className="mb-2" />
                   <span className="text-sm">Nhấn để tải lên tệp đính kèm</span>
                 </div>
@@ -280,18 +280,18 @@ export const TaskForm: React.FC<TaskFormProps> = ({ initialTask, onSave, onClose
           </form>
         </div>
 
-        <div className="p-6 border-t border-gray-100 dark:border-slate-700 flex justify-end gap-3 bg-gray-50 dark:bg-slate-700/30 rounded-b-2xl">
+        <div className="p-6 border-t border-gray-100 dark:border-slate-700 flex justify-end gap-3 bg-gray-50 dark:bg-slate-700/30 rounded-b-3xl">
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-2.5 rounded-lg text-gray-700 dark:text-slate-300 font-medium hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
+            className="px-6 py-2.5 rounded-xl text-gray-700 dark:text-slate-300 font-medium hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
           >
             Hủy
           </button>
           <button
             type="submit"
             form="taskForm"
-            className="px-6 py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-lg shadow-blue-200 dark:shadow-blue-900/30 transition-all transform active:scale-95"
+            className="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-lg shadow-blue-200 dark:shadow-blue-900/30 transition-all transform active:scale-95"
           >
             {initialTask ? 'Lưu thay đổi' : 'Tạo công việc'}
           </button>
